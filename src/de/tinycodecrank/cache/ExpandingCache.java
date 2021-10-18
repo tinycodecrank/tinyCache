@@ -3,10 +3,10 @@ package de.tinycodecrank.cache;
 import java.util.HashMap;
 import java.util.function.Function;
 
-public final class ExpandingCache<Key, Value> implements Cache<Key, Value>, AutoCloseable
+public final class ExpandingCache<Key, Value> implements ICache<Key, Value>, AutoCloseable
 {
-	private final HashMap<Key, Value>	cache	= new HashMap<>();
-	private final Function<Key, Value>	function;
+	private final HashMap<CacheKey<Key>, Value>	cache	= new HashMap<>();
+	private final Function<Key, Value>			function;
 	
 	public ExpandingCache(Function<Key, Value> function)
 	{
@@ -16,14 +16,15 @@ public final class ExpandingCache<Key, Value> implements Cache<Key, Value>, Auto
 	@Override
 	public Value get(Key key)
 	{
-		if (contains(key))
+		CacheKey<Key> cKey = new CacheKey<>(key);
+		if (contains(cKey))
 		{
-			return peak(key);
+			return peak(cKey);
 		}
 		else
 		{
 			Value value = this.function.apply(key);
-			this.cache.put(key, value);
+			this.cache.put(cKey, value);
 			return value;
 		}
 	}
@@ -31,11 +32,21 @@ public final class ExpandingCache<Key, Value> implements Cache<Key, Value>, Auto
 	@Override
 	public Value peak(Key key)
 	{
+		return peak(new CacheKey<>(key));
+	}
+	
+	private Value peak(CacheKey<Key> key)
+	{
 		return this.cache.get(key);
 	}
 	
 	@Override
 	public boolean contains(Key key)
+	{
+		return contains(new CacheKey<>(key));
+	}
+	
+	private boolean contains(CacheKey<Key> key)
 	{
 		return this.cache.containsKey(key);
 	}

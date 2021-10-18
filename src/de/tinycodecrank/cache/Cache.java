@@ -1,36 +1,16 @@
 package de.tinycodecrank.cache;
 
-public interface Cache<Key, Value> extends AutoCloseable
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.CLASS)
+@Target(ElementType.METHOD)
+public @interface Cache
 {
-	/**
-	 * @param key
-	 * @return the associated value to the key from the cache or calculate it
-	 *         otherwise
-	 */
-	public Value get(Key key);
+	@SuppressWarnings("rawtypes")
+	Class<? extends ICache> cache() default FIFOCache.class;
 	
-	/**
-	 * @param key
-	 * @return the associated value to the key from the cache or null if not present
-	 */
-	public Value peak(Key key);
-	
-	/**
-	 * @param key
-	 * @return true if key is contained in this cache otherwise false
-	 */
-	public boolean contains(Key key);
-	
-	/**
-	 * empties the cache
-	 */
-	public void clear();
-	
-	/**
-	 * @return the amount of entries contained in this cache
-	 */
-	public int size();
-	
-	@Override
-	public void close();
+	int capacity() default CacheConstants.DEFAULT_CAPACITY;
 }

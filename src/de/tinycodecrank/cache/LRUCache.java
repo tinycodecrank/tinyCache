@@ -6,11 +6,11 @@ import java.util.function.Function;
 
 import de.tinycodecrank.collections.CyclicBuffer;
 
-public class LRUCache<Key, Value> implements Cache<Key, Value>
+public class LRUCache<Key, Value> implements ICache<Key, Value>
 {
-	private final HashMap<Key, Value>	cache	= new HashMap<>();
-	private final CyclicBuffer<Key>		evicionBuffer;
-	private final Function<Key, Value>	function;
+	private final HashMap<CacheKey<Key>, Value>	cache	= new HashMap<>();
+	private final CyclicBuffer<CacheKey<Key>>	evicionBuffer;
+	private final Function<Key, Value>			function;
 	
 	public LRUCache(Function<Key, Value> function, int capacity)
 	{
@@ -24,24 +24,25 @@ public class LRUCache<Key, Value> implements Cache<Key, Value>
 		this.evicionBuffer	= new CyclicBuffer<>(capacity, key ->
 							{
 								cache.remove(key);
-								evicionListener.accept(key);
+								evicionListener.accept(key.key);
 							});
 	}
 	
 	@Override
 	public Value get(Key key)
 	{
-		if (contains(key))
+		CacheKey<Key> cKey = new CacheKey<>(key);
+		if (contains(cKey))
 		{
-			Value value = peak(key);
-			evicionBuffer.moveToFront(key);
+			Value value = peak(cKey);
+			evicionBuffer.moveToFront(cKey);
 			return value;
 		}
 		else
 		{
 			Value value = this.function.apply(key);
-			this.cache.put(key, value);
-			evicionBuffer.push(key);
+			this.cache.put(cKey, value);
+			evicionBuffer.push(cKey);
 			return value;
 		}
 	}
@@ -49,11 +50,21 @@ public class LRUCache<Key, Value> implements Cache<Key, Value>
 	@Override
 	public Value peak(Key key)
 	{
+		return peak(new CacheKey<>(key));
+	}
+	
+	private Value peak(CacheKey<Key> key)
+	{
 		return cache.get(key);
 	}
 	
 	@Override
 	public boolean contains(Key key)
+	{
+		return contains(new CacheKey<>(key));
+	}
+	
+	private boolean contains(CacheKey<Key> key)
 	{
 		return cache.containsKey(key);
 	}
