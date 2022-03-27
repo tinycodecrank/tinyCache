@@ -1,6 +1,7 @@
 package de.tinycodecrank.cache;
 
 import java.util.HashMap;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import de.tinycodecrank.collections.CyclicBuffer;
@@ -15,6 +16,16 @@ public class FIFOCache<Key, Value> implements ICache<Key, Value>
 	{
 		this.function		= function;
 		this.evicionBuffer	= new CyclicBuffer<>(capacity, this.cache::remove);
+	}
+	
+	public FIFOCache(Function<Key, Value> function, int capacity, Consumer<Key> evicionListener)
+	{
+		this.function		= function;
+		this.evicionBuffer	= new CyclicBuffer<>(capacity, key ->
+							{
+								cache.remove(key);
+								evicionListener.accept(key.key);
+							});
 	}
 	
 	@Override

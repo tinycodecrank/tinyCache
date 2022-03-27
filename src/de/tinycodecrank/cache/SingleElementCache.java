@@ -1,6 +1,7 @@
 package de.tinycodecrank.cache;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class SingleElementCache<Key, Value> implements ICache<Key, Value>
@@ -9,10 +10,18 @@ public class SingleElementCache<Key, Value> implements ICache<Key, Value>
 	private Value						value	= null;
 	private int							size	= 0;
 	private final Function<Key, Value>	function;
+	private final Consumer<Key>			evicionListener;
 	
 	public SingleElementCache(Function<Key, Value> function)
 	{
-		this.function = function;
+		this(function, _key ->
+		{});
+	}
+	
+	public SingleElementCache(Function<Key, Value> function, Consumer<Key> evicionListener)
+	{
+		this.function			= function;
+		this.evicionListener	= evicionListener;
 	}
 	
 	@Override
@@ -25,6 +34,10 @@ public class SingleElementCache<Key, Value> implements ICache<Key, Value>
 		}
 		else
 		{
+			if (this.size > 0)
+			{
+				evicionListener.accept(this.key.key);
+			}
 			this.value	= function.apply(key);
 			this.key	= cKey;
 			this.size	= 1;
