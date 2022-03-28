@@ -10,7 +10,7 @@ public class SingleElementCache<Key, Value> implements ICache<Key, Value>
 	private Value						value	= null;
 	private int							size	= 0;
 	private final Function<Key, Value>	function;
-	private final Consumer<Key>			evicionListener;
+	private final Consumer<Key>			evictionListener;
 	
 	public SingleElementCache(Function<Key, Value> function)
 	{
@@ -18,10 +18,10 @@ public class SingleElementCache<Key, Value> implements ICache<Key, Value>
 		{});
 	}
 	
-	public SingleElementCache(Function<Key, Value> function, Consumer<Key> evicionListener)
+	public SingleElementCache(Function<Key, Value> function, Consumer<Key> evictionListener)
 	{
 		this.function			= function;
-		this.evicionListener	= evicionListener;
+		this.evictionListener	= evictionListener;
 	}
 	
 	@Override
@@ -36,7 +36,7 @@ public class SingleElementCache<Key, Value> implements ICache<Key, Value>
 		{
 			if (this.size > 0)
 			{
-				evicionListener.accept(this.key.key);
+				evictionListener.accept(this.key.key);
 			}
 			this.value	= function.apply(key);
 			this.key	= cKey;

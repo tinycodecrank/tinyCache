@@ -9,22 +9,22 @@ import de.tinycodecrank.collections.CyclicBuffer;
 public class LRUCache<Key, Value> implements ICache<Key, Value>
 {
 	private final HashMap<CacheKey<Key>, Value>	cache	= new HashMap<>();
-	private final CyclicBuffer<CacheKey<Key>>	evicionBuffer;
+	private final CyclicBuffer<CacheKey<Key>>	evictionBuffer;
 	private final Function<Key, Value>			function;
 	
 	public LRUCache(Function<Key, Value> function, int capacity)
 	{
 		this.function		= function;
-		this.evicionBuffer	= new CyclicBuffer<>(capacity, cache::remove);
+		this.evictionBuffer	= new CyclicBuffer<>(capacity, cache::remove);
 	}
 	
-	public LRUCache(Function<Key, Value> function, int capacity, Consumer<Key> evicionListener)
+	public LRUCache(Function<Key, Value> function, int capacity, Consumer<Key> evictionListener)
 	{
 		this.function		= function;
-		this.evicionBuffer	= new CyclicBuffer<>(capacity, key ->
+		this.evictionBuffer	= new CyclicBuffer<>(capacity, key ->
 							{
 								cache.remove(key);
-								evicionListener.accept(key.key);
+								evictionListener.accept(key.key);
 							});
 	}
 	
@@ -35,14 +35,14 @@ public class LRUCache<Key, Value> implements ICache<Key, Value>
 		if (contains(cKey))
 		{
 			Value value = peak(cKey);
-			evicionBuffer.moveToFront(cKey);
+			evictionBuffer.moveToFront(cKey);
 			return value;
 		}
 		else
 		{
 			Value value = this.function.apply(key);
 			this.cache.put(cKey, value);
-			evicionBuffer.push(cKey);
+			evictionBuffer.push(cKey);
 			return value;
 		}
 	}
@@ -73,13 +73,13 @@ public class LRUCache<Key, Value> implements ICache<Key, Value>
 	public void clear()
 	{
 		cache.clear();
-		evicionBuffer.clear();
+		evictionBuffer.clear();
 	}
 	
 	@Override
 	public int size()
 	{
-		return evicionBuffer.size();
+		return evictionBuffer.size();
 	}
 	
 	@Override
