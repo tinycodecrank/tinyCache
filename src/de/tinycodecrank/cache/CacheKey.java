@@ -20,27 +20,18 @@ public final class CacheKey<Key>
 		if (keyClass.isArray())
 		{
 			String name = keyClass.getComponentType().getName();
-			switch (name)
+			return switch (name)
 			{
-				case "boolean":
-					return Arrays.hashCode((boolean[]) key);
-				case "byte":
-					return Arrays.hashCode((byte[]) key);
-				case "char":
-					return Arrays.hashCode((char[]) key);
-				case "double":
-					return Arrays.hashCode((double[]) key);
-				case "float":
-					return Arrays.hashCode((float[]) key);
-				case "int":
-					return Arrays.hashCode((int[]) key);
-				case "long":
-					return Arrays.hashCode((long[]) key);
-				case "short":
-					return Arrays.hashCode((short[]) key);
-				default:
-					return Arrays.deepHashCode((Object[]) key);
-			}
+				case "boolean" -> Arrays.hashCode((boolean[]) key);
+				case "byte" -> Arrays.hashCode((byte[]) key);
+				case "char" -> Arrays.hashCode((char[]) key);
+				case "double" -> Arrays.hashCode((double[]) key);
+				case "float" -> Arrays.hashCode((float[]) key);
+				case "int" -> Arrays.hashCode((int[]) key);
+				case "long" -> Arrays.hashCode((long[]) key);
+				case "short" -> Arrays.hashCode((short[]) key);
+				default -> Arrays.deepHashCode((Object[]) key);
+			};
 		}
 		else
 		{
