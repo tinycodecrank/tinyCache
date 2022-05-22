@@ -14,12 +14,14 @@ public class ConcurrentLRUCache<Key, Value> implements ICache<Key, Value>
 	private final CyclicBuffer<CacheKey<Key>>	evictionBuffer;
 	private final Function<Key, Value>			function;
 	
+	@SuppressWarnings("deprecation")
 	public ConcurrentLRUCache(Function<Key, Value> function, int capacity)
 	{
 		this.function		= function;
 		this.evictionBuffer	= new CyclicBuffer<>(capacity, cache::remove);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public ConcurrentLRUCache(Function<Key, Value> function, int capacity, Consumer<Key> evictionListener)
 	{
 		this.function		= function;

@@ -12,12 +12,14 @@ public class FIFOCache<Key, Value> implements ICache<Key, Value>
 	private final CyclicBuffer<CacheKey<Key>>	evictionBuffer;
 	private final Function<Key, Value>			function;
 	
+	@SuppressWarnings("deprecation")
 	public FIFOCache(Function<Key, Value> function, int capacity)
 	{
 		this.function		= function;
 		this.evictionBuffer	= new CyclicBuffer<>(capacity, this.cache::remove);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public FIFOCache(Function<Key, Value> function, int capacity, Consumer<Key> evictionListener)
 	{
 		this.function		= function;
