@@ -6,6 +6,15 @@ import java.util.function.Function;
 
 import de.tinycodecrank.collections.CyclicBuffer;
 
+/**
+ * This cache has a fixed capacity and evicts the longest unused cache entry if
+ * the capacity would be exceeded.
+ * 
+ * @author tinycodecrank
+ *
+ * @param <Key>
+ * @param <Value>
+ */
 public class LRUCache<Key, Value> implements ICache<Key, Value>
 {
 	private final HashMap<CacheKey<Key>, Value>	cache	= new HashMap<>();

@@ -3,6 +3,14 @@ package de.tinycodecrank.cache;
 import java.util.HashMap;
 import java.util.function.Function;
 
+/**
+ * This cache has no size limit and expands without limitations.
+ * 
+ * @author tinycodecrank
+ *
+ * @param <Key>
+ * @param <Value>
+ */
 public final class ExpandingCache<Key, Value> implements ICache<Key, Value>, AutoCloseable
 {
 	private final HashMap<CacheKey<Key>, Value>	cache	= new HashMap<>();

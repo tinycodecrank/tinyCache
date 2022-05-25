@@ -3,17 +3,38 @@ package de.tinycodecrank.cache;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * @author tinycodecrank
+ *
+ * @param <Key>
+ *            The type of the key to be used in the associated cache. This class
+ *            is used to wrap key values, in order to allow for primitive array
+ *            types as keys.
+ */
 public final class CacheKey<Key>
 {
 	public final Key	key;
 	private final int	hashCode;
 	
+	/**
+	 * The {@linkplain Object#hashCode()} of this element will be precalculated
+	 * during creation.
+	 * 
+	 * @param key
+	 *            The key to wrap.
+	 */
 	public CacheKey(Key key)
 	{
 		this.key		= key;
 		this.hashCode	= calcHashCode(key);
 	}
 	
+	/**
+	 * @param <Key>
+	 * @param key
+	 *            The key to be used to calculate the hashCode for this object
+	 * @return the hashCode for the supplied key
+	 */
 	private static <Key> int calcHashCode(Key key)
 	{
 		Class<?> keyClass = key.getClass();

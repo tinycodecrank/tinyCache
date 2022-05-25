@@ -4,6 +4,14 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * This cache has a capacity of 1.
+ * 
+ * @author tinycodecrank
+ *
+ * @param <Key>
+ * @param <Value>
+ */
 public class SingleElementCache<Key, Value> implements ICache<Key, Value>
 {
 	private CacheKey<Key>				key		= null;
