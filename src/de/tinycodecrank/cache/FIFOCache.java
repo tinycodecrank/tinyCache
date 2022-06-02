@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import de.tinycodecrank.bounded.presets._int.int_not_negative;
 import de.tinycodecrank.collections.CyclicBuffer;
 
 /**
@@ -21,14 +22,30 @@ public class FIFOCache<Key, Value> implements ICache<Key, Value>
 	private final CyclicBuffer<CacheKey<Key>>	evictionBuffer;
 	private final Function<Key, Value>			function;
 	
-	@SuppressWarnings("deprecation")
+	public FIFOCache(Function<Key, Value> function, int_not_negative capacity)
+	{
+		this.function		= function;
+		this.evictionBuffer	= new CyclicBuffer<>(capacity, this.cache::remove);
+	}
+	
+	@Deprecated(forRemoval = true)
 	public FIFOCache(Function<Key, Value> function, int capacity)
 	{
 		this.function		= function;
 		this.evictionBuffer	= new CyclicBuffer<>(capacity, this.cache::remove);
 	}
 	
-	@SuppressWarnings("deprecation")
+	public FIFOCache(Function<Key, Value> function, int_not_negative capacity, Consumer<Key> evictionListener)
+	{
+		this.function		= function;
+		this.evictionBuffer	= new CyclicBuffer<>(capacity, key ->
+							{
+								cache.remove(key);
+								evictionListener.accept(key.key);
+							});
+	}
+	
+	@Deprecated(forRemoval = true)
 	public FIFOCache(Function<Key, Value> function, int capacity, Consumer<Key> evictionListener)
 	{
 		this.function		= function;
