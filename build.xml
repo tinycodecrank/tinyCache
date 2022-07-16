@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE xml>
+<project default="create_jar" name="Package Cache into a jarfile">
+	<target name="create_jar">
+		<jar destfile="build/Cache.jar">
+			<manifest>
+				<attribute name="Created-By" value="tinycodecrank"/>
+				<attribute name="Class-Path" value="."/>
+			</manifest>
+			<fileSet dir="bin"/>
+		</jar>
+	</target>
+</project>
