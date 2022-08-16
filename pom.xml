@@ -21,6 +21,10 @@
 	
 	<repositories>
 		<repository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/tinycodecrank/tiny_cache</url>
+		</repository>
+		<repository>
 			<id>github_bounded_values</id>
 			<url>https://maven.pkg.github.com/tinycodecrank/bounded_values</url>
 		</repository>
