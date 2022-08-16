@@ -7,7 +7,7 @@
 				<attribute name="Created-By" value="tinycodecrank"/>
 				<attribute name="Class-Path" value="."/>
 			</manifest>
-			<fileSet dir="bin"/>
+			<fileSet dir="target/classes"/>
 		</jar>
 	</target>
 </project>

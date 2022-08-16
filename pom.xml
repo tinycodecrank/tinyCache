@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.tinycodecrank</groupId>
+	<artifactId>tiny_cache</artifactId>
+	<version>1.0.0</version>
+	<name>tiny_cache</name>
+	
+	<distributionManagement>
+		<repository>
+			<id>github_tiny_collections</id>
+			<name>GitHub tinycodecrank Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/tinycodecrank/tiny_collections</url>
+		</repository>
+	</distributionManagement>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>18</java.version>
+	</properties>
+	
+	<repositories>
+		<repository>
+			<id>github_bounded_values</id>
+			<url>https://maven.pkg.github.com/tinycodecrank/bounded_values</url>
+		</repository>
+		<repository>
+			<id>github_tiny_monads</id>
+			<url>https://maven.pkg.github.com/tinycodecrank/tiny_monads</url>
+		</repository>
+		<repository>
+			<id>github_tiny_collections</id>
+			<url>https://maven.pkg.github.com/tinycodecrank/tiny_collections</url>
+		</repository>
+	</repositories>
+	
+	<dependencies>
+		<dependency>
+			<groupId>de.tinycodecrank</groupId>
+			<artifactId>bounded_values</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tinycodecrank</groupId>
+			<artifactId>tiny_monads</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tinycodecrank</groupId>
+			<artifactId>tiny_collections</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<release>18</release>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
