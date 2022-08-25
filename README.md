@@ -3,7 +3,7 @@ A module containing several cache implementations.
 
 Class                        | Description
 :--------------------------  | :----------
-@Cache                       | this annotation is used to mark functions to be modified to use the specified cache ([ByteCode #TODO set Link]() manipulator to process this annotation).
+@Cache                       | this annotation is used to mark functions to be modified to use the specified cache ([ByteCode manipulator](https://github.com/tinycodecrank/CacheBuilder) to process this annotation).
 ICache                       | The interface all supplied cache Classes implement.
 ExpandingCache               | A cache implementation that expands without limits.
 FIFOCache                    | A cache that evicts the elements when the capacity has been reached ([FIFO](https://en.wikipedia.org/wiki/Cache_replacement_policies#First_in_first_out_(FIFO))).
